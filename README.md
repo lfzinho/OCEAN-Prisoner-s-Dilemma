@@ -4,7 +4,7 @@
 Two LLM agents, each driven by a Big Five (OCEAN) personality, talk and then play. A pattern search keeps tweaking
 their personalities to find one that scores better against its opponent, alternating between the two agents.
 
-![Dashboard while a run is in progress](assets/running_screenshot.png)
+![Dashboard while a run is in progress](assets/main_screenshot.png)
 
 Everything runs locally on [Ollama](https://ollama.com). The game itself runs on [Axelrod](https://github.com/Axelrod-Python/Axelrod),
 the UI on [Textual](https://github.com/Textualize/textual).
@@ -89,7 +89,7 @@ Results are cached in `.persona_cache.json`, so the same vector always maps to t
 The TUI shows how close each agent's learning rate is to the stopping point, how many matches have been played,
 and how far the current match has progressed. You can open any match's conversation, live or from earlier in the run.
 
-![Chat view, browsing a past match](assets/chat.svg)
+![Chat view following the live match](assets/chat_screenshot.png)
 
 | Key | |
 |---|---|
