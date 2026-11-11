@@ -1,0 +1,23 @@
+[project]
+name = "pd-search"
+version = "0.1.0"
+description = "Search for the best OCEAN personality to play the iterated Prisoner's Dilemma with LLM agents"
+requires-python = ">=3.11"
+dependencies = [
+    "ollama",
+    "axelrod",
+    "textual",
+    "pydantic",
+    "numpy",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools]
+packages = ["pd_search"]
+py-modules = ["persona_writer"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

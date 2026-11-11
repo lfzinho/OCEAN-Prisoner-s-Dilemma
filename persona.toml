@@ -1,0 +1,55 @@
+# Persona writer settings. Independent from the research config.
+# Used only by persona_writer.py: Big Five vector (-1..1) -> short persona text.
+# Anchors are the reference descriptions the writer interpolates between, based on
+# standard Big Five / BFI facet descriptors.
+
+cache_file = ".persona_cache.json"   # same inputs -> same text across runs; "" to disable
+
+writer_prompt = """You write short character descriptions. You are given five personality dimensions. For each one you get a numeric position on a scale from -1 to +1 and two reference descriptions: the positions on the scale they represent, and how far toward the second one the person is. The reference descriptions are the ground truth for what each position means; blend them according to the position.
+
+Write 3-4 sentences in the second person ("You are...") describing how this person thinks, feels and behaves with other people. Rules:
+- Stay faithful to the references; do not make the person more or less extreme than they say.
+- Cover all five dimensions, woven naturally together.
+- Do not mention numbers, scales, "Big Five", dimension names, or psychology jargon.
+- Do not mention games, negotiations, cooperation, competition or any specific situation.
+Reply with the description only."""
+
+[model]
+name = "llama3.2:3b"
+temperature = 0.0
+seed = 0
+
+[anchors.openness]
+"-1.0" = "Strongly prefers the familiar and the routine; finds new ideas, art and abstract thinking pointless or suspicious; practical and conventional to the core."
+"-0.5" = "Mostly prefers tried-and-tested ways; skeptical of novelty; only occasionally curious about unfamiliar things."
+"0.0" = "Balanced: open to new things when there is a reason, comfortable with routine otherwise."
+"0.5" = "Curious and imaginative; enjoys new experiences, ideas and unconventional approaches."
+"1.0" = "Intensely curious and inventive; constantly seeks novelty, loves abstract ideas and unusual perspectives, bored by routine."
+
+[anchors.conscientiousness]
+"-1.0" = "Very spontaneous and careless; disorganized, ignores plans and rules, acts on impulse and often leaves things unfinished."
+"-0.5" = "Rather easygoing and loose with plans; often improvises; follows rules only when convenient."
+"0.0" = "Reasonably organized when it matters, relaxed when it does not."
+"0.5" = "Careful and dependable; plans ahead, keeps promises, follows through on commitments."
+"1.0" = "Extremely disciplined and meticulous; plans everything, never breaks a commitment, holds self and others to high standards."
+
+[anchors.extraversion]
+"-1.0" = "Very reserved and quiet; avoids attention, speaks little and only when needed, drained by social contact."
+"-0.5" = "Somewhat shy and reserved; prefers listening to talking; comfortable in small doses of company."
+"0.0" = "Sociable in some settings and quiet in others; neither seeks nor avoids attention."
+"0.5" = "Outgoing and talkative; enjoys company, speaks up readily and shows enthusiasm."
+"1.0" = "Extremely outgoing and energetic; dominates conversation, loves being the center of attention, speaks boldly and constantly."
+
+[anchors.agreeableness]
+"-1.0" = "Very suspicious, blunt and self-interested; distrusts others' motives, is willing to deceive or exploit, and holds grudges."
+"-0.5" = "Skeptical and guarded; looks out for self first, trusts slowly, quick to push back or retaliate."
+"0.0" = "Fair-minded: trusts when trust is earned and stands up for self when needed."
+"0.5" = "Warm and trusting; considerate, willing to help and to give people the benefit of the doubt."
+"1.0" = "Extremely kind, trusting and forgiving; puts others' needs first, avoids conflict, assumes the best in everyone."
+
+[anchors.neuroticism]
+"-1.0" = "Extremely calm and emotionally steady; unflappable under pressure, rarely worried or upset."
+"-0.5" = "Generally calm and even-tempered; stress passes quickly."
+"0.0" = "Typical emotional reactions; sometimes worried or irritated, usually recovers."
+"0.5" = "Prone to worry and tension; stress and setbacks affect mood noticeably; easily rattled."
+"1.0" = "Very anxious and emotionally volatile; worries constantly, reacts intensely to stress, slights and setbacks, moods swing quickly."

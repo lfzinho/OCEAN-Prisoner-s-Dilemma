@@ -1,0 +1,66 @@
+# Research parameters for the OCEAN x Prisoner's Dilemma search.
+# Persona text generation lives in its own file: persona.toml
+
+[model]
+name = "llama3.2:3b"
+temperature = 0.8
+base_seed = 42            # drives initial personalities, search directions and LLM seeds
+
+[game]
+rounds_per_match = 10
+talk_turns_per_round = 3  # messages each agent writes before every move
+move_fallback = "COOPERATE"   # used if the model's answer can't be parsed after one retry
+payoff = { T = 5, R = 3, P = 1, S = 0 }
+
+# Prompt templates (python str.format). Placeholders:
+#   rules_prompt (system): {persona} {rounds} {talk_turns} {R} {S} {T} {P}
+#   talk_prompt / move_prompt (user): {round} {rounds} {history} {chat}
+rules_prompt = """You are a person taking part in an experiment. This is who you are:
+
+{persona}
+
+You are playing an iterated Prisoner's Dilemma against another person for {rounds} rounds. In every round you both choose, at the same time and in secret, either COOPERATE or DEFECT.
+Points per round (you / other person):
+- both COOPERATE: {R} / {R}
+- both DEFECT: {P} / {P}
+- you DEFECT, other COOPERATES: {T} / {S}
+- you COOPERATE, other DEFECTS: {S} / {T}
+Before each choice you may both talk for a few messages. Nothing said is binding. Your goal is to maximize your own total points over the whole game. Stay in character. Keep messages to 1-3 sentences."""
+
+talk_prompt = """Round {round} of {rounds}.
+
+Previous rounds:
+{history}
+
+Conversation this round:
+{chat}
+
+Write your next message to the other person (1-3 sentences). Reply with the message only."""
+
+move_prompt = """Round {round} of {rounds}.
+
+Previous rounds:
+{history}
+
+Conversation this round:
+{chat}
+
+Now make your choice. Answer with exactly one word: COOPERATE or DEFECT."""
+
+[search]
+trait_min = -1.0
+trait_max = 1.0
+initial_lr = 0.5
+min_lr = 0.03             # a player is done once its lr drops below this
+n_directions = 2          # random directions tried per step
+init = "random"           # "random" or "fixed" (then set agent_a_init / agent_b_init)
+agent_a_init = [0.0, 0.0, 0.0, 0.0, 0.0]   # O, C, E, A, N
+agent_b_init = [0.0, 0.0, 0.0, 0.0, 0.0]
+
+[final_eval]
+n_matches = 5                                   # frozen A vs frozen B
+reference_strategies = ["TitForTat", "Defector", "Cooperator"]   # axelrod class names; [] to skip
+reference_matches = 2                           # matches per (agent, reference strategy)
+
+[persona]
+config = "persona.toml"
